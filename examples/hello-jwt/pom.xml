@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2016 Kantega AS
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>hello-jwt</artifactId>
+
+    <parent>
+        <groupId>org.kantega.respiro.examples</groupId>
+        <artifactId>respiro-examples</artifactId>
+        <version>1.9-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.kantega.respiro</groupId>
+            <artifactId>respiro-api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kantega.reststop</groupId>
+            <artifactId>reststop-api</artifactId>
+            <version>${reststop.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kantega.reststop</groupId>
+            <artifactId>reststop-annotation-processor</artifactId>
+            <version>${reststop.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kantega.respiro</groupId>
+            <artifactId>respiro-test-utils</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.kantega.reststop</groupId>
+                <artifactId>reststop-maven-plugin</artifactId>
+                <version>${reststop.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>jul-to-slf4j</artifactId>
+                        <version>1.7.7</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>mark-source-dir</id>
+                        <goals>
+                            <goal>mark-source-dir</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>conf-doc</id>
+                        <goals>
+                            <goal>conf-doc</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>start</id>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop</id>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- krever at det finnes en src/config/${applicationName}.conf -->
+                    <applicationName>module</applicationName>
+                    <basePlugins>
+                        <plugin>
+                            <groupId>org.kantega.respiro</groupId>
+                            <artifactId>respiro-jwt-validator-plugin</artifactId>
+                            <version>${project.version}</version>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.kantega.respiro</groupId>
+                            <artifactId>respiro-api</artifactId>
+                            <version>${project.version}</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.kantega.respiro</groupId>
+                            <artifactId>respiro-jersey-plugin</artifactId>
+                            <version>${project.version}</version>
+                            <!--
+                                 respiro-jersey-plugin by default knows nothing
+                                 about bean validation. So injecting respiro-validation api here as a parent
+                                 plugin and injecting jersey-bean-validation such that Jersey will load
+                                 it automatically from its own classpath.
+
+                                 Also excluding validation-api and hibernate-validator from jersey-bean-validation
+                                 since we want to share these with other plugins via respiro-validation-api
+                             -->
+                            <dependencies>
+                                <dependency>
+                                    <groupId>org.kantega.respiro</groupId>
+                                    <artifactId>respiro-validation-api</artifactId>
+                                    <version>${project.version}</version>
+                                    <scope>provided</scope>
+                                </dependency>
+                                <dependency>
+                                    <groupId>org.glassfish.jersey.ext</groupId>
+                                    <artifactId>jersey-bean-validation</artifactId>
+                                    <version>${jersey.version}</version>
+                                    <exclusions>
+                                        <exclusion>
+                                            <groupId>javax.validation</groupId>
+                                            <artifactId>validation-api</artifactId>
+                                        </exclusion>
+                                        <exclusion>
+                                            <groupId>org.hibernate</groupId>
+                                            <artifactId>hibernate-validator</artifactId>
+                                        </exclusion>
+                                    </exclusions>
+                                </dependency>
+                            </dependencies>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.kantega.respiro</groupId>
+                            <artifactId>respiro-jersey-deploy-plugin</artifactId>
+                            <version>${project.version}</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.kantega.respiro</groupId>
+                            <artifactId>respiro-jersey-metrics-plugin</artifactId>
+                            <version>${project.version}</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.kantega.respiro</groupId>
+                            <artifactId>respiro-validation-api</artifactId>
+                            <version>${project.version}</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.kantega.respiro</groupId>
+                            <artifactId>respiro-jersey-validation-plugin</artifactId>
+                            <version>${project.version}</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.kantega.respiro</groupId>
+                            <artifactId>respiro-ui-plugin</artifactId>
+                            <version>${project.version}</version>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.kantega.respiro</groupId>
+                            <artifactId>respiro-ui-metrics-plugin</artifactId>
+                            <version>${project.version}</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.kantega.respiro</groupId>
+                            <artifactId>respiro-ui-registry-plugin</artifactId>
+                            <version>${project.version}</version>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.kantega.respiro</groupId>
+                            <artifactId>respiro-ui-plugins-plugin</artifactId>
+                            <version>${project.version}</version>
+                        </plugin>
+
+
+                        <!-- Reststop plugins -->
+                        <plugin>
+                            <groupId>org.kantega.reststop</groupId>
+                            <artifactId>reststop-metrics-plugin</artifactId>
+                            <version>${reststop.version}</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.kantega.reststop</groupId>
+                            <artifactId>reststop-metrics-servlets-plugin</artifactId>
+                            <version>${reststop.version}</version>
+                        </plugin>
+                    </basePlugins>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.16</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <reststopPort>${reststopPort}</reststopPort>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.1</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

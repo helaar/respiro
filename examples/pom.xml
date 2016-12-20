@@ -30,6 +30,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>hello-jwt</module>
         <module>camel-route</module>
         <module>hello-rest</module>
         <module>greeting-wsdl</module>

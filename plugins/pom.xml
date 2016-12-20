@@ -36,6 +36,7 @@
         <module>core/validation</module>
         <module>core/cxf</module>
         <module>core/security</module>
+        <module>core/jwt-security</module>
         <module>core/ldap-password</module>
         <module>core/message-collector</module>
         <module>core/logging</module>
