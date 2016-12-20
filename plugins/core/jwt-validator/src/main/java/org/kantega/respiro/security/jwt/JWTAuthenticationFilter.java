@@ -97,7 +97,7 @@ public class JWTAuthenticationFilter implements Filter {
 
                 DecodedJWT jwt = verifier.verify(token.get());
 
-                return new JWTAuthenticationResult(jwt.getClaim("username"), jwt.getClaim("roles"));
+                return new JWTAuthenticationResult(jwt.getClaim("user"), jwt.getClaim("roles"));
 
             } catch (Throwable e) {
                 logger.warn("Failed to validate JWT Token " + token, e);

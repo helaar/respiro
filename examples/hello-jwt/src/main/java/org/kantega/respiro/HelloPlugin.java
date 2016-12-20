@@ -25,9 +25,11 @@ import org.kantega.reststop.api.ServletBuilder;
 
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.Filter;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Context;
 
 /**
  */
@@ -53,8 +55,8 @@ public class HelloPlugin {
 
 
         @GET
-        public String getHello() {
-            return  "Hello unrestricted World";
+        public String getHello(@Context HttpServletRequest req) {
+            return  "Hello unrestricted World, " + req.getUserPrincipal().getName();
         }
 
         @RolesAllowed("Restricted")
