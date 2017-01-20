@@ -37,6 +37,7 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${validation.impl.version}</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
