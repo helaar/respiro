@@ -4,9 +4,16 @@ Modular, developer-friendly integration platform
 
 # Release notes
 
-## Respiro 2.9
+## Respiro 2.11
+* [camel 1.19.4](http://camel.apache.org/camel-2194-release.html)
+* [Apache cxf 3.2.1](http://cxf.apache.org/download.html)
+
+## Respiro 2.10
 * [Apache Mina version 1.7.0](https://github.com/apache/mina-sshd) 
 * Updated test-sshd-plugin due to changes in Apache Mina and fixing issue with java.security.InvalidKeyException on startup.
+
+## Respiro 2.9
+* Removed body filtering in response from dummy plugin as it messes up character encoding
 
 ## Respiro 2.8
 * [Apache cxf 3.2.0](http://cxf.apache.org/download.html)
