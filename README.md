@@ -4,9 +4,20 @@ Modular, developer-friendly integration platform
 
 # Release notes
 
+## Respiro 2.14
+* Exporting CamelContext from Camel plugin
+
+## Respiro 2.13
+* Added support for REST dummies returning text/html
+
+## Respiro 2.12
+* Added support for HTML MIME type in SMTPMailSender (respiro-mail plugin)
+
 ## Respiro 2.11
 * [camel 1.19.4](http://camel.apache.org/camel-2194-release.html)
 * [Apache cxf 3.2.1](http://cxf.apache.org/download.html)
+* [ActiveMQ 5.15.2](http://activemq.apache.org/activemq-5152-release.html)
+* Added a routing table feature to the dummy plugin. 
 
 ## Respiro 2.10
 * [Apache Mina version 1.7.0](https://github.com/apache/mina-sshd) 
