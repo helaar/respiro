@@ -1,5 +1,6 @@
 version: 2
 
+
 jobs:
   build:
 
@@ -29,4 +30,3 @@ jobs:
     - save_cache:
         key: v1-dep-{{ .Branch }}-{{ epoch }}   
     - run: bash <(curl -s https://copilot.blackducksoftware.com/ci/circle/scripts/upload)
-
