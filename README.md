@@ -4,6 +4,23 @@ Modular, developer-friendly integration platform
 
 # Release notes
 
+## Respiro 2.21
+* Correct header attribute name `Reply-To` in Mail sender customizer.
+* New parameter `respiroExchangesSize` limits size of exchanges collection.
+
+## Respiro 2.20.1
+* Logging `replyTo` when collecting data from mail sender.
+* Temporary fix for flapdoodle [Issue 232](https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo/issues/232): 
+  Using development versjon when running on windows. 
+
+## Respiro 2.20
+* Added `replyTo`-support to mail-plugin
+* [Flapdoodle 2.1.1](https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo/blob/master/Changelog.md)
+
+## Respiro 2.19
+* Bugfix in dummy rest services.
+* [Reststop 3.10](https://github.com/kantega/reststop/wiki/ReleaseNotes)
+
 ## Respiro 2.18
 * Added configuration parameter for maxPoolSize in DataSourceBuilder 
 * [hikaryCP 3.2.0](https://github.com/brettwooldridge/HikariCP/wiki)
