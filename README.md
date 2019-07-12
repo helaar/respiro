@@ -4,8 +4,18 @@ Modular, developer-friendly integration platform
 
 # Release notes
 
+## Respiro 2.25
+* Added kerberos authentication support. See `respiro-kerberos-plugin` for more.
+
+## Respiro 2.24
+* [ActiveMQ versjon 5.15.8](http://activemq.apache.org/activemq-5158-release.html)
+* [Camel version 2.19.5](http://camel.apache.org/camel-2195-release.html)
+* Added camel-jms, camel-spring and camel-ftp dependency to camel-plugin
+* Added system property `flapdoodleStartPort` to mongodb-test-plugin to allow flapdoodle start on fixed port.
+
 ## Respiro 2.23
 * [Jackson Databind 2.9.8](https://github.com/FasterXML/jackson-databind)
+* Bugfix on simple-java-mail to allow sender addresses on format `name <email@somewhere.com>`
 
 ## Respiro 2.22
 * [Reststop 3.11.2](https://github.com/kantega/reststop/wiki/ReleaseNotes) 

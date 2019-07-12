@@ -1,11 +1,11 @@
 /*
- * Copyright 2015 Kantega AS
+ * Copyright 2019 Kantega AS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,6 +24,8 @@ import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.email.EmailPopulatingBuilder;
 import org.simplejavamail.email.Recipient;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.util.ByteArrayDataSource;
 import java.util.Arrays;
 import java.util.Collection;
@@ -46,10 +48,11 @@ public class SMTPMailSender implements MailSender {
 
         // See: http://stackoverflow.com/questions/21856211/javax-activation-unsupporteddatatypeexception-no-object-dch-for-mime-type-multi
         currentThread().setContextClassLoader(getClass().getClassLoader());
+        
 
         EmailPopulatingBuilder builder = EmailBuilder.startingBlank()
             .withSubject(msg.getSubject())
-            .from(firstNotEmpty(msg.getFrom(), config.getFrom()))
+            .from(inetAddress(firstNotEmpty(msg.getFrom(), config.getFrom())))
             .to(whitelisted(msg.getTo()))
             .cc(whitelisted(msg.getCc()))
             .bcc(whitelisted(msg.getBcc()))
@@ -57,9 +60,9 @@ public class SMTPMailSender implements MailSender {
             .withAttachments(mapAttachemtns(msg.getAttachments()));
 
         if (msg.isHtml())
-            builder = builder.appendTextHTML(msg.getHtmlBody());
+            builder = builder.withHTMLText(msg.getHtmlBody()).withPlainText(msg.getPlainTextBody());
         else
-            builder = builder.appendText(msg.getPlainTextBody());
+            builder = builder.withPlainText(msg.getBody());
 
 
         if (!builder.getRecipients().isEmpty()) {
@@ -70,6 +73,15 @@ public class SMTPMailSender implements MailSender {
         } else
             return "Mail not sent due to empty recipients list.";
 
+    }
+    
+    private static InternetAddress inetAddress(String fromAddress) {
+        
+        try {
+            return new InternetAddress(fromAddress);
+        } catch (AddressException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Collection<Recipient> whitelisted(final List<String> addresses) {

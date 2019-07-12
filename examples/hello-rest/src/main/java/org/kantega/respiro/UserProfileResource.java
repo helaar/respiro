@@ -1,11 +1,11 @@
 /*
- * Copyright 2015 Kantega AS
+ * Copyright 2019 Kantega AS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -60,7 +60,7 @@ public class UserProfileResource {
                         .html(true)
                         .body("<ul><li>User lookup for user " + prof.getFullName() + "</ul></li>")
                         .plainTextBody("User lookup for user " + prof.getFullName())
-                        .to(prof.getUsername() + "@example.ru"));
+                        .to("Someuser<"+prof.getUsername() + "@example.ru>"));
 
         notifier.notifyLookup(prof, securityContext.getUserPrincipal().getName());
 
