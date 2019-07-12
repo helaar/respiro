@@ -1,29 +1,12 @@
+
 version: 2
-
-
 jobs:
   build:
-
-    working_directory: ~/helaar/respiro
-    parallelism: 1
-    shell: /bin/bash --login
-    
-    environment:
-      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
-      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
     docker:
-    - image: circleci/build-image:ubuntu-14.04-XXL-upstart-1189-5614f37
-      command: /sbin/init
-
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/helaar/respiro
     steps:
-    - checkout
-    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
-    - run: mvn install -DskipTests
-    - deploy:
-        command: bash <(curl -s https://copilot.blackducksoftware.com/ci/circle2/scripts/upload)
-        
-workflows:
-  version: 2
-  build:
-    jobs:
-    - build
+      - checkout
+      - run: mvn dependency:go-offline
+      - deploy:
+          command: bash <(curl -s https://copilot.blackducksoftware.com/ci/circle2/scripts/upload)
